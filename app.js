@@ -18,7 +18,7 @@ app.post('/cadastro', (req, res) => {
     }
   });
 
-}
+
   
 app.post('/treinos', (req, res) => {
   const { nome, data, hora } = req.body;
@@ -37,9 +37,6 @@ app.get('/treinos', (req, res) => {
   res.json(treinos);
 });
 
-app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
-});
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
