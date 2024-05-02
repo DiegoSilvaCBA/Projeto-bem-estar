@@ -22,3 +22,7 @@ app.post('/cadastro', (req, res) => {
   }
 });
 
+app.get('/cadastros', (req, res) => {
+  res.json(cadastros);
+});
+
