@@ -35,3 +35,32 @@ app.post('/treino', (req, res) => {
   res.status(201).json(novoTreino);
 });
 
+app.get('/treinos', (req, res) => {
+  const treinos = cadastroTreino.listarTreinos();
+  res.json(treinos);
+});
+
+app.put('/treino/:id', (req, res) => {
+  const { id } = req.params;
+  const { nome, data, hora } = req.body;
+  const treinoAtualizado = cadastroTreino.atualizarTreino(parseInt(id), nome, data, hora);
+  if (treinoAtualizado) {
+    res.json(treinoAtualizado);
+  } else {
+    res.status(404).json({ error: 'Treino não encontrado.' });
+  }
+});
+
+app.delete('/treino/:id', (req, res) => {
+  const { id } = req.params;
+  const resultado = cadastroTreino.excluirTreino(parseInt(id));
+  if (resultado) {
+    res.json({ message: 'Treino excluído com sucesso.' });
+  } else {
+    res.status(404).json({ error: 'Treino não encontrado.' });
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Servidor rodando na porta ${port}`);
+});
