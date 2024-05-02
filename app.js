@@ -26,3 +26,12 @@ app.get('/cadastros', (req, res) => {
   res.json(cadastros);
 });
 
+// CadastroTreino CRUD 
+const cadastroTreino = new CadastroTreino();
+
+app.post('/treino', (req, res) => {
+  const { nome, data, hora } = req.body;
+  const novoTreino = cadastroTreino.adicionarTreino(nome, data, hora);
+  res.status(201).json(novoTreino);
+});
+
