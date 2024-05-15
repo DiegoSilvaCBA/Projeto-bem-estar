@@ -60,6 +60,60 @@ app.delete('/treino/:id', (req, res) => {
     res.status(404).json({ error: 'Treino não encontrado.' });
   }
 });
+//CRUD EXERCÍCIO
+const Exercicio = require('./exercicio');
+
+class CadastroExercicios {
+    constructor() {
+        this.exercicios = [];
+    }
+
+    // Create - Adicionar um novo exercício
+    adicionarExercicio(nome, descricao) {
+        const exercicio = new Exercicio(nome, descricao);
+        this.exercicios.push(exercicio);
+    }
+
+    // Read - Listar todos os exercícios
+    listarExercicios() {
+        return this.exercicios;
+    }
+
+    // Update - Atualizar os detalhes de um exercício existente
+    atualizarExercicio(nome, novaDescricao) {
+        const exercicio = this.exercicios.find(exercicio => exercicio.nome === nome);
+        if (exercicio) {
+            exercicio.descricao = novaDescricao;
+        } else {
+            console.log("Exercício não encontrado");
+        }
+    }
+
+    // Delete - Remover um exercício existente
+    removerExercicio(nome) {
+        this.exercicios = this.exercicios.filter(exercicio => exercicio.nome !== nome);
+    }
+}
+
+// Exemplo de uso:
+
+const cadastro = new CadastroExercicios();
+
+cadastro.adicionarExercicio("Flexões", "Exercício para peito e tríceps");
+cadastro.adicionarExercicio("Agachamento", "Exercício para pernas e glúteos");
+
+console.log("Exercícios cadastrados:");
+console.log(cadastro.listarExercicios());
+
+cadastro.atualizarExercicio("Flexões", "Exercício para peito, tríceps e ombros");
+
+console.log("Exercícios após atualização:");
+console.log(cadastro.listarExercicios());
+
+cadastro.removerExercicio("Agachamento");
+
+console.log("Exercícios após remoção:");
+console.log(cadastro.listarExercicios());
 
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
