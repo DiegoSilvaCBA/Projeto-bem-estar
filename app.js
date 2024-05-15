@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const Cadastro = require('./Cadastro');
+const Usuario = require('./usuario');
 const CadastroTreino = require('./CadastroTreino');
+const Exercicio = require('./exercicios');
 
 const app = express();
 const port = 3000;
@@ -60,8 +62,38 @@ app.delete('/treino/:id', (req, res) => {
     res.status(404).json({ error: 'Treino não encontrado.' });
   }
 });
+
+//CRUD USUÁRIO
+
+
+
+const usuario1 = new Usuario("João", "joao@example.com", "123456");
+const usuario2 = new Usuario("Maria", "maria@example.com", "abcdef");
+
+const treino1 = new Treino("Treino de Musculação", "Treino focado em ganho de massa muscular.");
+const treino2 = new Treino("Treino de Corrida", "Treino para melhorar a resistência e velocidade.");
+
+// Adicione os treinos aos usuários
+usuario1.adicionarTreino(treino1);
+usuario2.adicionarTreino(treino2);
+
+// Exiba os usuários e seus treinos
+console.log("Usuário 1:", usuario1);
+console.log("Usuário 2:", usuario2);
+
+// Atualize o nome do usuário 1
+usuario1.cadastro.nome = "João Silva";
+
+// Exiba o usuário 1 atualizado
+console.log("Usuário 1 atualizado:", usuario1);
+
+// Remova o treino do usuário 2
+usuario2.treinos.pop();
+
+// Exiba o usuário 2 sem o treino removido
+console.log("Usuário 2 sem treino:", usuario2);
+
 //CRUD EXERCÍCIO
-const Exercicio = require('./exercicio');
 
 class CadastroExercicios {
     constructor() {
@@ -117,9 +149,6 @@ console.log(cadastro.listarExercicios());
 
 
 // crud treino
-
-const Treino = require('./treino');
-
 
 const treinoA = new Treino('Treino A', 'Descrição do Treino A');
 const treinoB = new Treino('Treino B', 'Descrição do Treino B');
