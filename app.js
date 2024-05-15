@@ -115,6 +115,35 @@ cadastro.removerExercicio("Agachamento");
 console.log("Exercícios após remoção:");
 console.log(cadastro.listarExercicios());
 
+
+// crud treino
+
+const Treino = require('./treino');
+
+
+const treinoA = new Treino('Treino A', 'Descrição do Treino A');
+const treinoB = new Treino('Treino B', 'Descrição do Treino B');
+
+
+console.log("Treinos cadastrados:");
+console.log(treinoA);
+console.log(treinoB);
+
+
+treinoA.adicionarExercicio('Exercício 1');
+treinoA.adicionarExercicio('Exercício 2');
+
+treinoB.adicionarExercicio('Exercício 3');
+treinoB.adicionarExercicio('Exercício 4');
+
+
+console.log("Exercícios do Treino A:");
+console.log(treinoA.listarExercicios());
+
+console.log("Exercícios do Treino B:");
+console.log(treinoB.listarExercicios());
+
+
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
 });
