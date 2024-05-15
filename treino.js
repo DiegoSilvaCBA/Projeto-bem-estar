@@ -1,4 +1,5 @@
 // treino.js
+const Treino = require('./exercicios');
 
 class Treino {
     constructor(nome, descricao) {
