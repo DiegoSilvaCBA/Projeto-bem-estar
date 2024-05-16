@@ -4,6 +4,7 @@ const Cadastro = require('./Cadastro');
 const Usuario = require('./usuario');
 const CadastroTreino = require('./CadastroTreino');
 const Exercicio = require('./exercicios');
+const Treino = require('./Treino'); 
 
 const app = express();
 const port = 3000;
