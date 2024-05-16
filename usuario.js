@@ -1,32 +1,30 @@
-const Cadastro = require('./Cadastro');
-const Treino = require('./Treino');
+const Cadastro = require('./cadastro');
+const Treino = require('./treino.js');
 
 // Defina a classe Usuario
 class Usuario {
-  constructor(nome, email, senha) {
-    // Crie um objeto Cadastro para o usuário
+  constructor(nome, email, senha) {     // Crie um objeto Cadastro para o usuário
     this.cadastro = new Cadastro(nome, email, senha);
-    // Inicialize a lista de treinos do usuário como vazia
-    this.treinos = [];
+    this.treinos = [];                   // Inicialize a lista de treinos do usuário como vazia
   }
 
   // Método para realizar o cadastro do usuário
   realizarCadastro() {
-    // Chame o método realizarCadastro da instância de Cadastro
-    this.cadastro.realizarCadastro();
+    this.cadastro.realizarCadastro();   // Chame o método realizarCadastro da instância de Cadastro
   }
 
   // Método para adicionar um novo treino
   adicionarTreino(treino) {
-    // Verifique se o objeto passado é uma instância de Treino
-    if (treino instanceof Treino) {
-      // Adicione o treino à lista de treinos do usuário
-      this.treinos.push(treino);
+    if (treino instanceof Treino) {     // Verifique se o objeto passado é uma instância de Treino
+      this.treinos.push(treino);        // Adicione o treino à lista de treinos do usuário
       console.log("Treino adicionado com sucesso!");
     } else {
       console.log("O objeto passado não é uma instância de Treino.");
     }
   }
+  removerTreino(nomeTreino) {
+    this.treinos = this.treinos.filter(treino => treino.getNome() !== nomeTreino);
+}
 
 }
 
