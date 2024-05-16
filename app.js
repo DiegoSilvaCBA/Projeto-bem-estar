@@ -1,10 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Cadastro = require('./Cadastro');
+const Cadastro = require('./cadastro');
 const Usuario = require('./usuario');
 const CadastroTreino = require('./CadastroTreino');
 const Exercicio = require('./exercicios');
-const Treino = require('./Treino'); 
+const Treino = require('./treino'); 
 
 const app = express();
 const port = 3000;
@@ -83,7 +83,7 @@ console.log("Usuário 1:", usuario1);
 console.log("Usuário 2:", usuario2);
 
 // Atualize o nome do usuário 1
-usuario1.cadastro.nome = "João Silva";
+usuario1.cadastro.nome = "João";
 
 // Exiba o usuário 1 atualizado
 console.log("Usuário 1 atualizado:", usuario1);
