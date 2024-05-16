@@ -1,4 +1,4 @@
-const CadastroTreino = require('./cadastroTreino');
+const CadastroTreino = require('../cadastroTreino');
 
 describe('CadastroTreino', () => {
   let cadastroTreino;

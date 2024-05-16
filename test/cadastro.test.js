@@ -1,4 +1,5 @@
-const Cadastro = require('../cadastro.js');
+const Cadastro = require('../cadastro');
+
 
 describe('Cadastro', () => {
   describe('#validarEmail()', () => {
