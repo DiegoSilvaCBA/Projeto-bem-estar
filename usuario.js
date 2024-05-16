@@ -4,6 +4,9 @@ const Treino = require('./treino.js');
 // Defina a classe Usuario
 class Usuario {
   constructor(nome, email, senha) {     // Crie um objeto Cadastro para o usuário
+    this.nome = nome;
+    this.email = email;
+    this.senha = senha;
     this.cadastro = new Cadastro(nome, email, senha);
     this.treinos = [];                   // Inicialize a lista de treinos do usuário como vazia
   }
