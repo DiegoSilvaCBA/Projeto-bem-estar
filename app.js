@@ -29,7 +29,8 @@ app.get('/cadastros', (req, res) => {
   res.json(cadastros);
 });
 
-// CadastroTreino CRUD 
+
+/* CadastroTreino CRUD 
 const cadastroTreino = new CadastroTreino();
 
 app.post('/treino', (req, res) => {
@@ -63,6 +64,60 @@ app.delete('/treino/:id', (req, res) => {
     res.status(404).json({ error: 'Treino não encontrado.' });
   }
 });
+
+// Cadastro CRUD de Usuário
+const usuarios = [];
+
+app.post('/usuario', (req, res) => {
+  const { nome, email, senha } = req.body;
+  const novoUsuario = new Usuario(nome, email, senha);
+  if (novoUsuario.email && novoUsuario.senha) {
+    usuarios.push(novoUsuario);
+    res.status(201).json({ message: 'Usuário cadastrado com sucesso!' });
+  } else {
+    res.status(400).json({ error: 'Por favor, insira email e senha válidos.' });
+  }
+});
+
+app.get('/usuarios', (req, res) => {
+  res.json(usuarios);
+});
+
+// CRUD de Exercício
+const exercicios = [];
+
+app.post('/exercicio', (req, res) => {
+  const { nome, descricao } = req.body;
+  const novoExercicio = new Exercicio(nome, descricao);
+  exercicios.push(novoExercicio);
+  res.status(201).json({ message: 'Exercício cadastrado com sucesso!' });
+});
+
+app.get('/exercicios', (req, res) => {
+  res.json(exercicios);
+});
+
+app.put('/exercicio/:id', (req, res) => {
+  const { id } = req.params;
+  const { nome, descricao } = req.body;
+  if (exercicios[id]) {
+    exercicios[id] = new Exercicio(nome, descricao);
+    res.json({ message: 'Exercício atualizado com sucesso!' });
+  } else {
+    res.status(404).json({ error: 'Exercício não encontrado.' });
+  }
+});
+
+app.delete('/exercicio/:id', (req, res) => {
+  const { id } = req.params;
+  if (exercicios[id]) {
+    exercicios.splice(id, 1);
+    res.json({ message: 'Exercício excluído com sucesso!' });
+  } else {
+    res.status(404).json({ error: 'Exercício não encontrado.' });
+  }
+});
+*/
 
 //CRUD USUÁRIO
 

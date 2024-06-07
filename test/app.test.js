@@ -20,3 +20,5 @@ describe('POST /cadastro', () => {
     expect(res.body).toHaveProperty('valido', false);
   });
 });
+
+//Teste do Treino//
