@@ -42,38 +42,58 @@ app.use(bodyParser.json());
       }
     });
 
-    // CadastroTreino CRUD 
-    const cadastroTreino = new CadastroTreino();
-
-    app.post('/treino', (req, res) => {
+    // Rota para adicionar um novo treino
+    app.post('/treino', async (req, res) => {
       const { nome, data, hora } = req.body;
-      const novoTreino = cadastroTreino.adicionarTreino(nome, data, hora);
-      res.status(201).json(novoTreino);
-    });
-
-    app.get('/treinos', (req, res) => {
-      const treinos = cadastroTreino.listarTreinos();
-      res.json(treinos);
-    });
-
-    app.put('/treino/:id', (req, res) => {
-      const { id } = req.params;
-      const { nome, data, hora } = req.body;
-      const treinoAtualizado = cadastroTreino.atualizarTreino(parseInt(id), nome, data, hora);
-      if (treinoAtualizado) {
-        res.json(treinoAtualizado);
-      } else {
-        res.status(404).json({ error: 'Treino não encontrado.' });
+      try {
+        const novoTreino = await Treino.create({ nome, data, hora });
+        res.status(201).json(novoTreino);
+      } catch (error) {
+        res.status(400).json({ error: error.message });
       }
     });
 
-    app.delete('/treino/:id', (req, res) => {
+    // Rota para listar todos os treinos
+    app.get('/treinos', async (req, res) => {
+      try {
+        const treinos = await Treino.findAll();
+        res.json(treinos);
+      } catch (error) {
+        res.status(400).json({ error: error.message });
+      }
+    });
+
+    // Rota para atualizar um treino pelo ID
+    app.put('/treino/:id', async (req, res) => {
       const { id } = req.params;
-      const resultado = cadastroTreino.excluirTreino(parseInt(id));
-      if (resultado) {
+      const { nome, data, hora } = req.body;
+      try {
+        const treino = await Treino.findByPk(id);
+        if (!treino) {
+          return res.status(404).json({ error: 'Treino não encontrado.' });
+        }
+        treino.nome = nome;
+        treino.data = data;
+        treino.hora = hora;
+        await treino.save();
+        res.json(treino);
+      } catch (error) {
+        res.status(400).json({ error: error.message });
+      }
+    });
+
+    // Rota para excluir um treino pelo ID
+    app.delete('/treino/:id', async (req, res) => {
+      const { id } = req.params;
+      try {
+        const treino = await Treino.findByPk(id);
+        if (!treino) {
+          return res.status(404).json({ error: 'Treino não encontrado.' });
+        }
+        await treino.destroy();
         res.json({ message: 'Treino excluído com sucesso.' });
-      } else {
-        res.status(404).json({ error: 'Treino não encontrado.' });
+      } catch (error) {
+        res.status(400).json({ error: error.message });
       }
     });
 
