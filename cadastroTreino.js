@@ -1,45 +1,52 @@
+const Treino = require('./models/Treino');
+
 class CadastroTreino {
-    constructor() {
-        this.treinos = [];
+  async adicionarTreino(nome, data, hora) {
+    try {
+      const novoTreino = await Treino.create({ nome, data, hora });
+      return novoTreino;
+    } catch (error) {
+      throw new Error('Não foi possível adicionar o treino.');
     }
+  }
 
-    adicionarTreino(nome, data, hora) {
-        const novoTreino = {
-            id: this.treinos.length + 1,
-            nome,
-            data,
-            hora
-        };
-        this.treinos.push(novoTreino);
-        return novoTreino;
+  async atualizarTreino(id, nome, data, hora) {
+    try {
+      const treino = await Treino.findByPk(id);
+      if (!treino) {
+        return null;
+      }
+      treino.nome = nome;
+      treino.data = data;
+      treino.hora = hora;
+      await treino.save();
+      return treino;
+    } catch (error) {
+      throw new Error('Não foi possível atualizar o treino.');
     }
+  }
 
-    atualizarTreino(id, nome, data, hora) {
-        const treino = this.treinos.find(treino => treino.id === id);
-        if (!treino) {
-            return null; 
-        }
-
-        treino.nome = nome;
-        treino.data = data;
-        treino.hora = hora;
-
-        return treino;
+  async listarTreinos() {
+    try {
+      const treinos = await Treino.findAll();
+      return treinos;
+    } catch (error) {
+      throw new Error('Não foi possível listar os treinos.');
     }
+  }
 
-    listarTreinos() {
-        return this.treinos;
+  async excluirTreino(id) {
+    try {
+      const treino = await Treino.findByPk(id);
+      if (!treino) {
+        return false;
+      }
+      await treino.destroy();
+      return true;
+    } catch (error) {
+      throw new Error('Não foi possível excluir o treino.');
     }
-
-    excluirTreino(id) {
-        const index = this.treinos.findIndex(treino => treino.id === id);
-        if (index === -1) {
-            return false; 
-        }
-
-        this.treinos.splice(index, 1);
-        return true;
-    }
+  }
 }
 
 module.exports = CadastroTreino;
