@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const Cadastro = require('./Cadastro');
-const CadastroTreino = require('./CadastroTreino');
+const Treino = require('./treinoo');
+//const Treino = require('./cadastroTreino');
 const sequelize = require('./config/database');
 const User = require('./models/User');
 
@@ -43,7 +44,7 @@ app.use(bodyParser.json());
     });
 
     // Rota para adicionar um novo treino
-    app.post('/treino', async (req, res) => {
+    app.post('/Treino', async (req, res) => {
       const { nome, data, hora } = req.body;
       try {
         const novoTreino = await Treino.create({ nome, data, hora });
@@ -68,7 +69,7 @@ app.use(bodyParser.json());
       const { id } = req.params;
       const { nome, data, hora } = req.body;
       try {
-        const treino = await Treino.findByPk(id);
+        const Treino = await Treino.findByPk(id);
         if (!treino) {
           return res.status(404).json({ error: 'Treino não encontrado.' });
         }
