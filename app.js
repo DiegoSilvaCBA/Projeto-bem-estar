@@ -98,6 +98,7 @@ app.use(bodyParser.json());
     });
 
     // Iniciar o servidor após a conexão com o banco de dados
+    sequelize.sync({ force: true }).then(() => { force: true})
     app.listen(port, () => {
       console.log(`Servidor rodando na porta ${port}`);
     });
