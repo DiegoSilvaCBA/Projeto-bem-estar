@@ -43,6 +43,40 @@ app.use(bodyParser.json());
       }
     });
 
+    app.put('/cadastro/:id', async (req, res) => {
+      const { id } = req.params;
+      const { nome, email, senha } = req.body;
+      try {
+        const user = await User.findByPk(id);
+        if (!user) {
+          return res.status(404).json({ error: 'Usuário não encontrado.' });
+        }
+        user.nome = nome;
+        user.email = email;
+        user.senha = senha;
+        await user.save();
+        res.json({ message: 'Cadastro atualizado com sucesso!', user });
+      } catch (error) {
+        res.status(400).json({ error: error.message });
+      }
+    });
+
+    app.delete('/cadastro/:id', async (req, res) => {
+      const { id } = req.params;
+      try {
+        const user = await User.findByPk(id);
+        if (!user) {
+          return res.status(404).json({ error: 'Usuário não encontrado.' });
+        }
+        await user.destroy();
+        res.json({ message: 'Cadastro excluído com sucesso.' });
+      } catch (error) {
+        res.status(400).json({ error: error.message });
+      }
+    });
+
+    //Crud Treino
+
     app.post('/treino', async (req, res) => {
       const { nome, data, hora } = req.body;
       try {
@@ -96,62 +130,6 @@ app.use(bodyParser.json());
           res.status(400).json({ error: error.message });
       }
   });
-
-    /*  // Rota para adicionar um novo treino
-      app.post('/treino', async (req, res) => {
-        const { nome, data, hora } = req.body;
-        try {
-          const novoTreino = await Treino.create({ nome, data, hora });
-          res.status(201).json(novoTreino);
-        } catch (error) {
-          res.status(400).json({ error: error.message });
-        }
-      });
-  
-      // Rota para listar todos os treinos
-      app.get('/treinos', async (req, res) => {
-        try {
-          const treinos = await Treino.findAll();
-          res.json(treinos);
-        } catch (error) {
-          res.status(400).json({ error: error.message });
-        }
-      });
-  
-      // Rota para atualizar um treino pelo ID
-      app.put('/treino/:id', async (req, res) => {
-        const { id } = req.params;
-        const { nome, data, hora } = req.body;
-        try {
-          const treino = await Treino.findByPk(id);
-          if (!treino) {
-            return res.status(404).json({ error: 'Treino não encontrado.' });
-          }
-          treino.nome = nome;
-          treino.data = data;
-          treino.hora = hora;
-          await treino.save();
-          res.json(treino);
-        } catch (error) {
-          res.status(400).json({ error: error.message });
-        }
-      });
-  
-      // Rota para excluir um treino pelo ID
-      app.delete('/treino/:id', async (req, res) => {
-        const { id } = req.params;
-        try {
-          const treino = await Treino.findByPk(id);
-          if (!treino) {
-            return res.status(404).json({ error: 'Treino não encontrado.' });
-          }
-          await treino.destroy();
-          res.json({ message: 'Treino excluído com sucesso.' });
-        } catch (error) {
-          res.status(400).json({ error: error.message });
-        }
-      });
-      */
 
     // Iniciar o servidor após a conexão com o banco de dados
     sequelize.sync({ force: true }).then(() => { force: true})
