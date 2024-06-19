@@ -1,5 +1,3 @@
-// treino.js
-
 class Treino {
     constructor(nome, descricao) {
         this.nome = nome;
