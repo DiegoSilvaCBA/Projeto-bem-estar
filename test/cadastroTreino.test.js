@@ -57,10 +57,7 @@ describe('CadastroTreino', () => {
       { id: 2, nome: 'Treino 2', data: '2024-06-21', hora: '09:00' },
     ];
 
-    
-    jest.spyOn(Treino, 'findAll').mockImplementation(() => {
-      return Promise.resolve(treinosMock);
-    });
+    jest.spyOn(Treino, 'findAll').mockResolvedValue(treinosMock);
 
     // Chamar Método
     const treinos = await cadastroTreino.listarTreinos();
@@ -70,10 +67,6 @@ describe('CadastroTreino', () => {
 
     // Verificando se os treinos retornados são os esperados
     expect(treinos).toEqual(treinosMock);
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
   });
 
   it('deve excluir um treino existente', async () => {
@@ -105,5 +98,3 @@ describe('CadastroTreino', () => {
   });
 
 });
-
-//
