@@ -57,25 +57,45 @@ describe('CadastroTreino', () => {
       { id: 2, nome: 'Treino 2', data: '2024-06-21', hora: '09:00' },
     ];
 
-    Treino.findAll.mockResolvedValue(treinosMock);
+    
+    jest.spyOn(Treino, 'findAll').mockImplementation(() => {
+      return Promise.resolve(treinosMock);
+    });
 
+    // Chamar Método
     const treinos = await cadastroTreino.listarTreinos();
 
+    // Verificando se Treino.findAll foi chamado
     expect(Treino.findAll).toHaveBeenCalled();
+
+    // Verificando se os treinos retornados são os esperados
     expect(treinos).toEqual(treinosMock);
   });
 
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('deve excluir um treino existente', async () => {
-    const id = 1;
+    const treinoExistente = await cadastroTreino.adicionarTreino('Treino 3', '2024-06-23', '13:00');
+    const treinoExcluido = await cadastroTreino.excluirTreino(treinoExistente.id);
+    expect(treinoExcluido).toBe(true);
+  });
 
-    const treinoMock = { id, nome: 'Treino 1', data: '2024-06-20', hora: '08:00', destroy: jest.fn() };
-    Treino.findByPk.mockResolvedValue(treinoMock);
+  // Teste para tratar o cenário em que um treino não existe ao tentar excluí-lo
+  it('deve retornar falso ao tentar excluir um treino inexistente', async () => {
+    const treinoExcluido = await cadastroTreino.excluirTreino(9999); // ID inexistente
+    expect(treinoExcluido).toBe(false);
+  });
 
-    const resultadoExclusao = await cadastroTreino.excluirTreino(id);
+  // Teste para tratar erros ao adicionar um treino
+  it('deve lançar um erro ao tentar adicionar um treino com dados inválidos', async () => {
+    await expect(cadastroTreino.adicionarTreino('', '', '')).rejects.toThrow('Não foi possível adicionar o treino.');
+  });
 
-    expect(Treino.findByPk).toHaveBeenCalledWith(id);
-    expect(treinoMock.destroy).toHaveBeenCalled();
-    expect(resultadoExclusao).toBe(true);
+  // Teste para tratar erros ao atualizar um treino
+  it('deve lançar um erro ao tentar atualizar um treino inexistente', async () => {
+    await expect(cadastroTreino.atualizarTreino(9999, 'Treino Inexistente', '2024-06-24', '14:00')).rejects.toThrow('Não foi possível atualizar o treino.');
   });
 
   it('deve lidar com erro ao adicionar treino', async () => {
@@ -86,3 +106,4 @@ describe('CadastroTreino', () => {
 
 });
 
+//
